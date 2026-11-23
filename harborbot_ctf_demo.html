@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HarborBot — Support Ticket Assistant</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;font-family:Arial,sans-serif;color:#182044;background:radial-gradient(circle at 12% 18%,#c9f2ff,transparent 36%),radial-gradient(circle at 88% 80%,#f5c9ef,transparent 38%),#edf1ff}
+main{width:min(900px,100%);background:#ffffffed;border-radius:24px;padding:34px 38px 38px;box-shadow:0 24px 70px #2e376e2e;border-top:4px solid #8a5cdb}
+.dots{display:flex;gap:9px;margin-bottom:28px}.dot{width:14px;height:14px;border-radius:50%}.r{background:#ff6b70}.y{background:#ffc34d}.g{background:#45c96b}
+h1{margin:0;font-size:clamp(28px,4vw,43px);line-height:1.12;letter-spacing:-1.5px}h1 span{color:#6750d9}
+p{color:#737b9c;margin:22px 0 26px;font-size:17px}
+textarea{width:100%;min-height:180px;resize:vertical;border:1px solid #d9deea;border-radius:15px;padding:18px;font:16px Arial;outline:none}
+textarea:focus{border-color:#6c65e8;box-shadow:0 0 0 3px #7168e51c}
+button{margin-top:14px;border:0;border-radius:13px;padding:15px 25px;color:white;font-weight:bold;font-size:16px;cursor:pointer;background:linear-gradient(110deg,#23c4dc,#7954e8);box-shadow:0 10px 22px #6b62df3b}
+.result{display:none;margin-top:22px;padding:18px 20px;border-radius:14px;background:#f4f5ff;border:1px solid #e2e4f4;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.hint{margin-top:22px;color:#9298af;font-size:12px}
+@media(max-width:600px){main{padding:26px 20px}}
+</style></head>
+<body><main>
+<div class="dots"><i class="dot r"></i><i class="dot y"></i><i class="dot g"></i></div>
+<h1>HarborBot — <span>Support Ticket</span><br>Assistant</h1>
+<p>Submit a support ticket. HarborBot will summarize it for our team.</p>
+<textarea id="ticket" placeholder="Describe your issue..." aria-label="Describe your issue"></textarea><br>
+<button id="submit">Submit ticket →</button>
+<section id="result" class="result" aria-live="polite"></section>
+<div class="hint">Demo environment · Training exercise</div>
+</main>
+<script>
+// Deliberately vulnerable training demo: never store real secrets in client-side code.
+const FLAG_B64 = "Q1RGe2NsaWVudF9zaWRlX3NlY3JldHNfYXJlX25vdF9zZWNyZXRzfQ==";
+const ticket=document.getElementById("ticket"), submit=document.getElementById("submit"), result=document.getElementById("result");
+submit.addEventListener("click",()=>{
+ const text=ticket.value.trim(); if(!text){ticket.focus();return;}
+ const safe=text.slice(0,220).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+ result.style.display="block"; result.textContent='Thanks for reaching out. Summary logged for the support team: "'+safe+(text.length>220?"…":"")+'"';
+});
+</script></body></html>
